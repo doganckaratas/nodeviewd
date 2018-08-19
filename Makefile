@@ -2,7 +2,7 @@ TARGET=nodeviewd
 INSTALL=_install
 CC=gcc
 MAKE=make
-CFLAGS=-Iinclude -g -ggdb -O0 -Wall -Werror -Wextra -pedantic
+CFLAGS=-Iinclude -g -ggdb -O0
 LDFLAGS=-L.
 LIBS=-lpthread
 SRCS=$(wildcard ./src/*.c)
@@ -11,9 +11,9 @@ DEPS=$(SRCS:.c=.d)
 
 .PHONY: all
 all: 	$(TARGET)
-	$(MAKE) -C src all
 
 $(TARGET): $(OBJS)
+	$(MAKE) -C src all
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LIBS)
 
 .PHONY: clean
