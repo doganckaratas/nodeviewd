@@ -102,7 +102,7 @@ int get_if_data(int *fd, struct ifconf *ifc, struct ifreq *ifr, struct iflist **
 			return -2;
 		}
 		sprintf(mac, MAC_FMT, MAC_STR(item->ifr_hwaddr.sa_data));
-		push(ifl, item->ifr_name, ip, mac);
+		push_list(ifl, item->ifr_name, ip, mac);
 	}
 	return 0;
 }

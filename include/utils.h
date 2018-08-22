@@ -1,3 +1,10 @@
+/**
+ * @file   utils.h
+ * @brief  utility definitions
+ * @date   02/08/2018
+ * @author Dogan Can Karatas
+ */
+
 #ifndef __UTILS_H
 #define __UTILS_H
 
@@ -11,7 +18,9 @@ struct iflist {
 	struct iflist *next;
 };
 
-int push(struct iflist **, char *, char *, char *);
-int dump(struct iflist *);
+int push_list(struct iflist **, char *, char *, char *);
+int dump_list(struct iflist *);
+int jsonify_interface(char **, char *, char *, char *);
+int jsonify_list(char **, struct iflist *);
 
 #endif /* __UTILS_H */

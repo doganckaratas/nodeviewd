@@ -5,8 +5,11 @@
  * @author Dogan Can Karatas
  */
 
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
+
+#include <string.h> //delete
 
 #include "socket.h"
 #include "utils.h"
@@ -16,6 +19,7 @@ int main() {
 	struct ifconf ifc;
 	struct ifreq ifr;
 	struct iflist *ifl = NULL;
+	char *json_interfaces = NULL;
 
 	if (open_socket(&fd) < 0) {
 		fprintf(stderr, "Unable to open file descriptor.\n");
@@ -32,10 +36,12 @@ int main() {
 		return -3;
 	}
 	
-	if (dump(ifl) < 0) {
+	if (jsonify_list(&json_interfaces, ifl) < 0) {
 		fprintf(stderr, "Unable to dump interface data.\n");
 		return -4;
 	}
+
+	printf("json array: %s\n", json_interfaces);
 
 	if (close_socket(&fd) < 0) {
 		fprintf(stderr, "Unable to close file descriptor.\n");
@@ -45,6 +51,11 @@ int main() {
 	if (ifl != NULL) {
 		free(ifl);
 		ifl = NULL;
+	}
+
+	if (json_interfaces == NULL) {
+		free(json_interfaces);
+		json_interfaces = NULL;
 	}
 	return 0;
 }

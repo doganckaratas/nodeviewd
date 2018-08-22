@@ -7,10 +7,13 @@ OBJS=$(SRCS:.c=.o)
 DEPS=$(SRCS:.c=.d)
 
 .PHONY: all
-all: 	$(DEPS)
+all: 	$(OBJS)
 
 $(DEPS): %.d:%.c
 	$(CC) $(CFLAGS) -MM $< >$@
+
+$(OBJS): $(SRCS)
+	$(CC) $(CFLAGS) -c $^
 
 -include $(DEPS)
 

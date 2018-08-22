@@ -1,3 +1,11 @@
+/**
+ * @file   utils.c
+ * @brief  utility functions
+ * @date   02/08/2018
+ * @author Dogan Can Karatas
+ */
+
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,20 +14,20 @@
 
 #include "utils.h"
 
-int push(struct iflist **head, char *name, char *ip, char *mac)
+int push_list(struct iflist **ifl, char *name, char *ip, char *mac)
 {
 	struct iflist *new = (struct iflist *) malloc(sizeof(struct iflist));
-	new->next = (*head);
+	new->next = (*ifl);
 
 	memcpy(new->name, name, IFNAMSIZ);
 	memcpy(new->ip, ip, INET_ADDRSTRLEN);
 	memcpy(new->mac, mac, 19);
 
-	(*head) = new;
+	(*ifl) = new;
 	return 0;
 }
 
-int dump(struct iflist *ifl)
+int dump_list(struct iflist *ifl)
 {
 	if (ifl == NULL) {
 		return -1;
@@ -30,5 +38,38 @@ int dump(struct iflist *ifl)
 			ifl->name, ifl->ip, ifl->mac);
 		ifl = ifl->next;
 	}
+	return 0;
+}
+
+int jsonify_interface(char **json, char *ifname, char *ip, char *mac)
+{
+	if (ifname == NULL || ip == NULL || mac == NULL) {
+		return -1;
+	}
+
+	asprintf(json, "{\"name\": \"%s\", \"ip\": \"%s\", \"mac\": \"%s\"}", ifname, ip, mac);
+	return 0;
+}
+
+int jsonify_list(char **json, struct iflist *ifl)
+{
+	char *tmp = NULL;
+	if (ifl == NULL) {
+		return -1;
+	}
+
+	while (ifl != NULL) {
+		jsonify_interface(&tmp,ifl->name, ifl->ip, ifl->mac);
+		if (*json == NULL)
+			asprintf(json, "[%s", tmp);
+		else 
+			asprintf(json, "%s,%s", *json, tmp);
+		free(tmp);
+		tmp = NULL;
+		ifl = ifl->next;
+	}
+	asprintf(json, "%s]", *json);
+	free(tmp);
+	tmp = NULL;
 	return 0;
 }
