@@ -51,25 +51,29 @@ int jsonify_interface(char **json, char *ifname, char *ip, char *mac)
 	return 0;
 }
 
-int jsonify_list(char **json, struct iflist *ifl)
+int jsonify(char **json, struct iflist *ifl, char *hostname, char *ext_ip)
 {
 	char *tmp = NULL;
-	if (ifl == NULL) {
+	if (ifl == NULL || hostname == NULL || ext_ip == NULL) {
 		return -1;
 	}
 
 	while (ifl != NULL) {
 		jsonify_interface(&tmp,ifl->name, ifl->ip, ifl->mac);
+		if (tmp == NULL)
+			return -2;
+
 		if (*json == NULL)
-			asprintf(json, "[%s", tmp);
+			asprintf(json, "{\"interfaces\": [%s", tmp);
 		else 
 			asprintf(json, "%s,%s", *json, tmp);
 		free(tmp);
 		tmp = NULL;
 		ifl = ifl->next;
 	}
-	asprintf(json, "%s]", *json);
+	asprintf(json, "%s],\"hostname\": \"%s\",\"external_ip\": \"%s\"}", *json, hostname, ext_ip);
 	free(tmp);
 	tmp = NULL;
 	return 0;
 }
+

@@ -19,7 +19,7 @@ int main() {
 	struct ifconf ifc;
 	struct ifreq ifr;
 	struct iflist *ifl = NULL;
-	char *json_interfaces = NULL;
+	char *json = NULL;
 
 	if (open_socket(&fd) < 0) {
 		fprintf(stderr, "Unable to open file descriptor.\n");
@@ -36,12 +36,12 @@ int main() {
 		return -3;
 	}
 	
-	if (jsonify_list(&json_interfaces, ifl) < 0) {
-		fprintf(stderr, "Unable to dump interface data.\n");
+	if (jsonify(&json, ifl, "ubuntu", "172.23.32.22") < 0) {
+		fprintf(stderr, "Unable to JSONify interface data.\n");
 		return -4;
 	}
 
-	printf("json array: %s\n", json_interfaces);
+	printf("%s\n", json);
 
 	if (close_socket(&fd) < 0) {
 		fprintf(stderr, "Unable to close file descriptor.\n");
@@ -53,9 +53,9 @@ int main() {
 		ifl = NULL;
 	}
 
-	if (json_interfaces == NULL) {
-		free(json_interfaces);
-		json_interfaces = NULL;
+	if (json == NULL) {
+		free(json);
+		json = NULL;
 	}
 	return 0;
 }

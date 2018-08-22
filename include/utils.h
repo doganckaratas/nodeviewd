@@ -21,6 +21,6 @@ struct iflist {
 int push_list(struct iflist **, char *, char *, char *);
 int dump_list(struct iflist *);
 int jsonify_interface(char **, char *, char *, char *);
-int jsonify_list(char **, struct iflist *);
+int jsonify(char **, struct iflist *, char *, char *);
 
 #endif /* __UTILS_H */
