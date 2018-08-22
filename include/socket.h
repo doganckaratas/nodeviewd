@@ -9,7 +9,12 @@
 #ifndef _SOCKET_H
 #define _SOCKET_H
 
-int find_ifaces();
+#include "utils.h"
 
+int find_ifaces();
+int open_socket(int *);
+int close_socket(int *);
+int get_ifaces(int *, struct ifconf *);
+int get_if_data(int *, struct ifconf *, struct ifreq *, struct iflist **);
 
 #endif /* _SOCKET_H */
