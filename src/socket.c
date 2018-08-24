@@ -1,4 +1,4 @@
-/** 
+/**
  * @file   socket.c
  * @brief  socket utilities
  * @date   02/08/2018
@@ -22,25 +22,26 @@
 #include "socket.h"
 #include "utils.h"
 
-#define MAC_FMT    "%02x:%02x:%02x:%02x:%02x:%02x"
-#define MAC_STR(x) \
-		(unsigned char) x[0], \
-		(unsigned char) x[1], \
-		(unsigned char) x[2], \
-		(unsigned char) x[3], \
-		(unsigned char) x[4], \
-		(unsigned char) x[5]
-
-int open_socket(int *fd)
+int open_socket(int *fd, enum socket_type sock_e)
 {
 	if (fd == NULL) {
 		return -1;
 	}
 
-	*fd = socket(PF_INET, SOCK_DGRAM, 0);
+	switch (sock_e) {
+		case IOCTL:
+			*fd = socket(PF_INET, SOCK_DGRAM, 0);
+			break;
+		case STREAM:
+			*fd = socket(AF_INET, SOCK_STREAM, 0);
+			break;
+		default:
+			return -2;
+	}
+
 	if (*fd < 0) {
 		perror("socket");
-		return -2;
+		return -3;
 	}
 
 	return 0;

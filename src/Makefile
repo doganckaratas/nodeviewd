@@ -1,7 +1,5 @@
 CC=gcc
-CFLAGS=-I../include -g -ggdb -O0 -Wall -Werror -Wextra -pedantic
-LDFLAGS=-L.
-LIBS=-lpthread
+CFLAGS=-I../include -g -ggdb -O0 -Wall -Werror -Wextra -pedantic -DDEBUG
 SRCS=$(wildcard *.c)
 OBJS=$(SRCS:.c=.o)
 DEPS=$(SRCS:.c=.d)

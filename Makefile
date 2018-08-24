@@ -12,9 +12,9 @@ DEPS=$(SRCS:.c=.d)
 .PHONY: all
 all: 	$(TARGET)
 
-$(TARGET): $(OBJS)
+$(TARGET):
 	$(MAKE) -C src all
-	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LIBS)
+	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LDFLAGS) $(LIBS)
 
 .PHONY: clean
 clean:

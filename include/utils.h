@@ -18,9 +18,9 @@ struct iflist {
 	struct iflist *next;
 };
 
-int push_list(struct iflist **, char *, char *, char *);
+int push_list(struct iflist **, const char *, const char *, const char *);
 int dump_list(struct iflist *);
-int jsonify_interface(char **, char *, char *, char *);
-int jsonify(char **, struct iflist *, char *, char *);
+int jsonify_interface(char **, const char *, const char *, const char *);
+int jsonify(char **, struct iflist *, const char *, const char *);
 
 #endif /* __UTILS_H */

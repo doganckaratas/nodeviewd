@@ -14,7 +14,7 @@
 
 #include "utils.h"
 
-int push_list(struct iflist **ifl, char *name, char *ip, char *mac)
+int push_list(struct iflist **ifl, const char *name, const char *ip, const char *mac)
 {
 	struct iflist *new = (struct iflist *) malloc(sizeof(struct iflist));
 	new->next = (*ifl);
@@ -41,7 +41,7 @@ int dump_list(struct iflist *ifl)
 	return 0;
 }
 
-int jsonify_interface(char **json, char *ifname, char *ip, char *mac)
+int jsonify_interface(char **json, const char *ifname, const char *ip, const char *mac)
 {
 	if (ifname == NULL || ip == NULL || mac == NULL) {
 		return -1;
@@ -51,7 +51,7 @@ int jsonify_interface(char **json, char *ifname, char *ip, char *mac)
 	return 0;
 }
 
-int jsonify(char **json, struct iflist *ifl, char *hostname, char *ext_ip)
+int jsonify(char **json, struct iflist *ifl, const char *hostname, const char *ext_ip)
 {
 	char *tmp = NULL;
 	if (ifl == NULL || hostname == NULL || ext_ip == NULL) {
