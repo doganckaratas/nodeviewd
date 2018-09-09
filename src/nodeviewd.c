@@ -31,6 +31,7 @@ int main() {
 	/* we need to config file for these parameters. */
 	/* also if there is no config file, these values will be default */
 	char *remotehost = "nodeview.herokuapp.com";
+	char responseview[1024] = {0};
 	char *json = NULL;
 	char *remoteip = NULL;
 	int remoteport = 80;
@@ -73,6 +74,15 @@ int main() {
 		log_d("Unable to connect %s (%s:%d).\n", remotehost, remoteip, remoteport);
 		return -5;
 	}
+
+	log_d("Connected to %s:%d\n", remotehost, remoteport);
+
+	if (remote_send(&fd_remote, GET, "{\"hostname\":\"home\"}", responseview) < 0) {
+		log_d("Unable to request data to server, %s:%d\n", remotehost, remoteport);
+		return -5;
+	}
+
+	printf("Server response: \n%s\n", responseview);
 
 	if (close_socket(&fd_ioctl) < 0) {
 		log_d("Unable to close file descriptor.\n");
