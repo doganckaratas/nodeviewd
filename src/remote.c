@@ -15,6 +15,7 @@
 #include <arpa/inet.h>
 
 #include "remote.h"
+#include "utils.h"
 
 #define REQUEST_BODY "%s /machine/%s/ HTTP/1.1\r\nHost: nodeview.herokuapp.com\r\n"
 #define CONTENT_DATA "Content-Type: application/json\r\nContent-Length: %lu\r\n\r\n%s"
@@ -78,7 +79,8 @@ int remote_send(int *fd, enum http_action action, char * payload, char *response
 		default:
 			return -2;
 	}
-	printf("request: \n%s\n", request);
+
+	log_d("Request: \n%s\n", request);
 
 	if (send(*fd, request, strlen(request), 0) < 0) {
 		return -2;
