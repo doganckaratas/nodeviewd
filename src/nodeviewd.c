@@ -92,6 +92,7 @@ int main(int argc, char **argv) {
 			return -5;
 		}
 	} else {
+		/* Daemonize process if this case selected */
 		log_e("Please specify an option.\n");
 		return -5;
 	}
